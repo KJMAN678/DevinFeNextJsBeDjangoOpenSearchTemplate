@@ -90,6 +90,5 @@ volumes:
 networks:
     # This network is used to connect the opensearch and opensearch-dashboards services,
     # allowing communication between them. It utilizes a bridge driver for network isolation.
-
   opensearch-net:
     driver: bridge

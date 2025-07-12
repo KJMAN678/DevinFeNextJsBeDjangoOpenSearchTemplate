@@ -17,10 +17,11 @@ RUN apt-get update && apt-get install -y \
     libxfixes3 \
     libxrandr2 \
     libgbm1 \
-    libasound2
+    libasound2 \
+    libx11-xcb1 \
+    libxcursor1 \
+    libgtk-3-0
 
 RUN rm -rf ./node_modules ./package-lock.json
 RUN npm install
-RUN npx playwright install-deps
-
-RUN npx playwright install chromium --with-deps
+RUN npx playwright install firefox

@@ -24,10 +24,14 @@ services:
       - "DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}"
       - "DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}"
       - "DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}"
+      - "DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}"
       - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD}"
     command: sh /app/backend/start.sh
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      opensearch:
+        condition: service_healthy
     networks:
       - opensearch-net
 
@@ -36,9 +40,9 @@ services:
     ports:
         - "5432"
     environment:
-      - "POSTGRES_DB=postgres"
-      - "POSTGRES_USER=postgres"
-      - "POSTGRES_PASSWORD=postgres"
+      - "POSTGRES_DB=${POSTGRES_DB}"
+      - "POSTGRES_USER=${POSTGRES_USER}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -55,19 +59,25 @@ services:
       discovery.type: single-node
       OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
       path.repo: /usr/share/opensearch/config/backup
-      OPENSEARCH_INITIAL_ADMIN_USERNAME: admin
+      OPENSEARCH_INITIAL_ADMIN_USERNAME: ${OPENSEARCH_INITIAL_ADMIN_USERNAME}
       OPENSEARCH_INITIAL_ADMIN_PASSWORD: ${OPENSEARCH_INITIAL_ADMIN_PASSWORD}
       DISABLE_INSTALL_DEMO_CONFIG: false
     volumes:
       - ./opensearch/backup:/usr/share/opensearch/config/backup
     ulimits:
       memlock:
-        soft: -1 # Set memlock to unlimited (no soft or hard limit)
+        soft: -1
         hard: -1
     ports:
       - 9200:9200
     networks:
       - opensearch-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -k -u admin:$$OPENSEARCH_INITIAL_ADMIN_PASSWORD https://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
 
   opensearch-dashboards:

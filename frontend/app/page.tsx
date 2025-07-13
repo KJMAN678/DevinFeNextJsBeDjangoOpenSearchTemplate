@@ -8,7 +8,7 @@ export default function Page() {
   const [data, setData] = useState<{test: number }>({test: 0})
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/')
+    axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/')
     .then((res) => res.data)
     .then((data) => {
       setData(data)

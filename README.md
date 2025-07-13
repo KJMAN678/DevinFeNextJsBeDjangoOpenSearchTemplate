@@ -65,15 +65,11 @@ $ docker compose -f docker-compose.mac.yaml run --rm frontend npm run test
 $ docker compose -f docker-compose.ubuntu.yaml run --rm backend uv run pytest
 $ docker compose -f docker-compose.ubuntu.yaml run --rm frontend npm run test
 
-# ローカルM1Mac用
-# 一度実行 ブラウザのインストール
-$ docker compose -f docker-compose.mac.yaml run --rm frontend npx playwright install firefox
 # Playwright
+# ローカルM1Mac用
 $ docker compose -f docker-compose.mac.yaml run --rm frontend npx playwright test --project firefox
 
 # Devin用
-# 一度実行 ブラウザのインストール
-$ docker compose -f docker-compose.ubuntu.yaml run --rm frontend npx playwright install firefox
 # Playwright
 $ docker compose -f docker-compose.ubuntu.yaml run --rm frontend npx playwright test --project firefox
 ```

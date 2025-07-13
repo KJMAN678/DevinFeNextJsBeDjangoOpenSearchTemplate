@@ -9,6 +9,8 @@ services:
       - playwright_browsers:/root/.cache/ms-playwright
     ports:
       - "3000:3000"
+    environment:
+      - "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}"
     command: npm run build-and-dev
     depends_on:
       - backend
@@ -25,6 +27,7 @@ services:
       - "DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}"
       - "DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}"
       - "DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}"
+      - "OPENSEARCH_INITIAL_ADMIN_USERNAME=${OPENSEARCH_INITIAL_ADMIN_USERNAME}"
       - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD}"
     command: sh /app/backend/start.sh
     depends_on:

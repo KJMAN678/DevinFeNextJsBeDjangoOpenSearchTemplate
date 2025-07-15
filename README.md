@@ -20,8 +20,7 @@ export DJANGO_SECRET_KEY=hogehoge
 export OPENSEARCH_INITIAL_ADMIN_USERNAME=hoge
 export OPENSEARCH_INITIAL_ADMIN_PASSWORD=hogehoge
 export POSTGRES_DB=hoge
-export POSTGRES_USER=hoge
-export POSTGRES_PASSWORD=hogehoge
+export NEXT_PUBLIC_URL=http://localhost:3000
 
 # 環境変数を読み込む
 $ direnv allow

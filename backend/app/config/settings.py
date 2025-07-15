@@ -82,9 +82,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
+        "NAME": os.environ.get("POSTGRES_DB"),
+        "USER": os.environ.get("POSTGRES_USER"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
         "HOST": "db",
         "PORT": 5432,
     }
@@ -137,4 +137,4 @@ INTERNAL_IPS = [
 ]
 
 
-CORS_ORIGIN_WHITELIST = ("http://localhost:3000",)
+CORS_ORIGIN_WHITELIST = (os.environ.get("NEXT_PUBLIC_URL"),)

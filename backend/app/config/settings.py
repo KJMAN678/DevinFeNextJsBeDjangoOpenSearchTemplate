@@ -136,5 +136,6 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-
-CORS_ORIGIN_WHITELIST = (os.environ.get("NEXT_PUBLIC_URL"),)
+CORS_ALLOWED_ORIGINS = [
+    os.environ.get("NEXT_PUBLIC_URL"),
+]

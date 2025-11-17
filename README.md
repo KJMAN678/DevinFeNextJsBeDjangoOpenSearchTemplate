@@ -9,20 +9,7 @@
 ```sh
 # 環境変数用のファイル作成
 $ touch .envrc
-
-# .envrc に下記を入力. xxx は適宜更新
-
-export NEXT_PUBLIC_API_URL=http://localhost:8000
-export DJANGO_SUPERUSER_USERNAME=hoge
-export DJANGO_SUPERUSER_EMAIL=hoge@test.com
-export DJANGO_SUPERUSER_PASSWORD=hogehoge
-export DJANGO_SECRET_KEY=hogehoge
-export OPENSEARCH_INITIAL_ADMIN_USERNAME=hoge
-export OPENSEARCH_INITIAL_ADMIN_PASSWORD=hogehoge
-export POSTGRES_DB=hoge
-export NEXT_PUBLIC_URL=http://localhost:3000
-
-# 環境変数を読み込む
+$ cp .envrc.example .envrc
 $ direnv allow
 ```
 

@@ -21,7 +21,7 @@ updates:
   - package-ecosystem: "opensearch-docker"
     directory: "/opensearch"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "ghcr.io/opensearch-project/OpenSearch"
         update-types: 

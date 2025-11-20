@@ -33,3 +33,13 @@ updates:
         update-types: 
           - "version-update:semver-patch"
 
+  - package-ecosystem: "docker-compose"
+    directory: "./"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-name: "ghcr.io/postgres/postgres"
+    ignore:
+      - dependency-name: "ghcr.io/postgres/postgres"
+        update-types: 
+          - "version-update:semver-patch"

@@ -1,0 +1,35 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-name: "ghcr.io/astral-sh/uv:0.9.10"
+    ignore:
+      - dependency-name: "ghcr.io/astral-sh/uv:0.9.10"
+        update-types:
+          - "version-update:semver-patch"
+
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-name: "ghcr.io/vercel/next.js"
+    ignore:
+      - dependency-name: "ghcr.io/vercel/next.js"
+        update-types: 
+          - "version-update:semver-patch"
+
+  - package-ecosystem: "docker"
+    directory: "/opensearch"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "ghcr.io/opensearch-project/OpenSearch"
+    ignore:
+      - dependency-name: "ghcr.io/opensearch-project/OpenSearch"
+        update-types: 
+          - "version-update:semver-patch"
+

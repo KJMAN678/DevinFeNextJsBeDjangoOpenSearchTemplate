@@ -1,6 +1,6 @@
-FROM opensearchproject/opensearch:2.17.1
+FROM opensearchproject/opensearch:2.18.0
 
-RUN opensearch-plugin install --batch https://github.com/WorksApplications/elasticsearch-sudachi/releases/download/v3.3.0/opensearch-2.17.1-analysis-sudachi-3.3.0.zip
+RUN opensearch-plugin install --batch https://github.com/WorksApplications/elasticsearch-sudachi/releases/download/v3.3.0/opensearch-2.18.0-analysis-sudachi-3.3.0.zip
 
 USER root
 

@@ -72,18 +72,6 @@ $ http://localhost:5601/ が OpenSearch-Dashboards のURL
 - 必ず日本語で回答してください
 を入力
 
-### OPENAI-API で PR-Review
-- [Qodo Merge](https://qodo-merge-docs.qodo.ai/installation/github/)
-  - GPT-4.1利用
-  - 日本語の回答をするようプロンプト設定
-- GitHub の Repository >> Settings >> Secretes and variables >> Actions の Repository secrets の New repository secret を登録
-  - OPENAI_KEY という名称で OPENAI API keys の SECRET KEY を登録
-    - [OPENAI API keys](https://platform.openai.com/settings/organization/api-keys) 
-```sh
---- .github/
-           |- workflows/
-                        |-- pr_agent.yml
-```
 ### Django
 - app 追加
 ```sh

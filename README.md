@@ -1,3 +1,9 @@
+### 検索
+```sh
+$ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py search
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py search
+```
+
 ### Devin
 
 - [Devin's Machine](https://app.devin.ai/workspace) でリポジトリ追加
@@ -85,14 +91,14 @@ $ http://localhost:5601/ が OpenSearch-Dashboards のURL
 - app 追加
 ```sh
 # ローカルM1Mac用
-$ mkdir -p backend/app/api
-$ docker compose -f docker-compose.mac.yaml exec backend uv run django-admin startapp api app/api
+$ mkdir -p backend/app/search
+$ docker compose -f docker-compose.mac.yaml exec backend uv run django-admin startapp search app/search
 $ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py makemigrations
 $ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py migrate
 
 # Devin用
-$ mkdir -p backend/app/api
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run django-admin startapp api app/api
+$ mkdir -p backend/app/search
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run django-admin startapp search app/search
 $ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py makemigrations
 $ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py migrate
 ```

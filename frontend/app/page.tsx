@@ -15,9 +15,17 @@ export default function Page() {
     })
   }, [])
 
+  // 検索フォームの入力結果をAPI経由でバックエンドに送信する
+  async function onSubmit(e: React.FormEvent) {
+  }
+
   return (
     <div>
       <h1>test</h1>
+      <form onSubmit={onSubmit}>
+        <input type="text" name="search_word" />
+        <button type="submit">Search</button>
+      </form>
       <p>{data.test}</p>
     </div>
   )

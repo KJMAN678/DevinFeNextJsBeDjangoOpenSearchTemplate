@@ -3,7 +3,7 @@ import os
 from opensearchpy import OpenSearch
 
 from django.core.management.base import BaseCommand
-
+from faker import Faker
 
 class Command(BaseCommand):
     help = "Closes the specified poll for voting"
@@ -21,20 +21,20 @@ class Command(BaseCommand):
             http_auth=auth,
             use_ssl=True,
             verify_certs=False,
+            ssl_show_warn=False,
         )
 
         index_name = "classmates"
-        data = {"Name": "Alice", "Age": 21, "Sex": "f"}
-
         if client.indices.exists(index=index_name):
             client.indices.delete(index=index_name)
-        client.index(index=index_name, body=data, refresh=True)
+            
+        fake = Faker()
+        for _ in range(100):
+            data = {
+                "Name": fake.name(),
+                "Age": fake.random_int(min=18, max=100),
+                "Sex": fake.random_element(elements=("f", "m")),
+            }
+            client.index(index=index_name, body=data, refresh=True)
 
-        q = "Alice"
-        query = {
-            "size": 5,
-            "query": {"multi_match": {"query": q, "fields": ["Name^2", "Sex"]}},
-        }
-
-        response = client.search(body=query, index=index_name)
-        self.stdout.write(f"{response}", ending="")
+        self.stdout.write(f"Added 100 dummy search index")

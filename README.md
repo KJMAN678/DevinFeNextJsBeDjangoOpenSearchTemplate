@@ -32,32 +32,41 @@ $ ./remake-container.sh ubuntu
 #### 5.SetUp Lint
 ```sh
 # ローカルM1Mac用
-$ docker compose -f docker-compose.mac.yaml run --rm backend uv run ruff check .
-$ docker compose -f docker-compose.mac.yaml run --rm frontend npx next lint
+$ docker compose -f docker-compose.mac.yaml exec backend uv run ruff check .
+$ docker compose -f docker-compose.mac.yaml exec frontend npx next lint
 
 # Devin用
-$ docker compose -f docker-compose.ubuntu.yaml run --rm backend uv run ruff check .
-$ docker compose -f docker-compose.ubuntu.yaml run --rm frontend npx next lint
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run ruff check .
+$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx next lint
+```
+
+- 参考
+```sh
+$ docker compose -f docker-compose.mac.yaml exec backend uv run ruff format 
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run ruff format 
+
+$ docker compose -f docker-compose.mac.yaml exec backend uv run ruff check --fix .
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run ruff check --fix .
 ```
 
 #### 6.SetUp Tests
 - no tests ran in 0.00s だと Devin の Verify が通らないっぽい
 ```sh
 # ローカルM1Mac用
-$ docker compose -f docker-compose.mac.yaml run --rm backend uv run pytest
-$ docker compose -f docker-compose.mac.yaml run --rm frontend npm run test
+$ docker compose -f docker-compose.mac.yaml exec backend uv run pytest
+$ docker compose -f docker-compose.mac.yaml exec frontend npm run test
 
 # Devin用
-$ docker compose -f docker-compose.ubuntu.yaml run --rm backend uv run pytest
-$ docker compose -f docker-compose.ubuntu.yaml run --rm frontend npm run test
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run pytest
+$ docker compose -f docker-compose.ubuntu.yaml exec frontend npm run test
 
 # Playwright
 # ローカルM1Mac用
-$ docker compose -f docker-compose.mac.yaml run --rm frontend npx playwright test --project firefox
+$ docker compose -f docker-compose.mac.yaml exec frontend npx playwright test --project firefox
 
 # Devin用
 # Playwright
-$ docker compose -f docker-compose.ubuntu.yaml run --rm frontend npx playwright test --project firefox
+$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx playwright test --project firefox
 ```
 
 ### 7.Setup Local App
@@ -77,13 +86,23 @@ $ http://localhost:5601/ が OpenSearch-Dashboards のURL
 ```sh
 # ローカルM1Mac用
 $ mkdir -p backend/app/api
-$ docker compose -f docker-compose.mac.yaml run --rm backend uv run django-admin startapp api app/api
-$ docker compose -f docker-compose.mac.yaml run --rm backend uv run python app/manage.py makemigrations
-$ docker compose -f docker-compose.mac.yaml run --rm backend uv run python app/manage.py migrate
+$ docker compose -f docker-compose.mac.yaml exec backend uv run django-admin startapp api app/api
+$ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py makemigrations
+$ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py migrate
 
 # Devin用
 $ mkdir -p backend/app/api
-$ docker compose -f docker-compose.ubuntu.yaml run --rm backend uv run django-admin startapp api app/api
-$ docker compose -f docker-compose.ubuntu.yaml run --rm backend uv run python app/manage.py makemigrations
-$ docker compose -f docker-compose.ubuntu.yaml run --rm backend uv run python app/manage.py migrate
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run django-admin startapp api app/api
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py makemigrations
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py migrate
+```
+
+
+### フロントエンドのバージョンアップ
+
+```sh
+$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx npm-check-updates -u
+$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx npm-check-updates -u --target minor
+$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx npm-check-updates -u --target patch
+$ docker compose -f docker-compose.ubuntu.yaml exec frontend npm install
 ```

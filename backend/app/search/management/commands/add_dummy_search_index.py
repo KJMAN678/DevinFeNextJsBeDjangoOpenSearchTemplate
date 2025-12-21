@@ -7,7 +7,7 @@ from faker import Faker
 
 
 class Command(BaseCommand):
-    help = "Closes the specified poll for voting"
+    help = "add dummy search index"
 
     def handle(self, *args, **options):
         host = "opensearch"

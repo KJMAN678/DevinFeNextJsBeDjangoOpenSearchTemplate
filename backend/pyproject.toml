@@ -23,3 +23,27 @@ dev = [
 
 [tool.uv]
 link-mode = "copy"
+
+
+[tool.pytest.ini_options]
+testpaths = ["app/tests"]
+
+[tool.mypy]
+python_version = "3.13"
+plugins = ["mypy_django_plugin.main"]
+explicit_package_bases = true
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
+
+[[tool.mypy.overrides]]
+module = ["debug_toolbar.*"]
+ignore_missing_imports = true
+
+[tool.ruff.lint]
+ignore = [
+]
+
+select = [
+   "I",
+]

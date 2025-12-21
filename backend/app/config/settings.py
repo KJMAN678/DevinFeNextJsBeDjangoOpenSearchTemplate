@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "config",
+    "search",
 ]
 
 MIDDLEWARE = [
@@ -124,4 +125,5 @@ INTERNAL_IPS = [
 
 CORS_ALLOWED_ORIGINS = [
     os.environ.get("NEXT_PUBLIC_URL"),
+    os.environ.get("OPENSEARCH_URL"),
 ]

@@ -10,7 +10,8 @@ dependencies = [
     "django-ninja==1.5.1",
     "Markdown==3.10",
     "django-filter==25.2",
-    "django-cors-headers==4.9.0"
+    "django-cors-headers==4.9.0",
+    "opensearch-py==3.1.0",
 ]
 
 [dependency-groups]

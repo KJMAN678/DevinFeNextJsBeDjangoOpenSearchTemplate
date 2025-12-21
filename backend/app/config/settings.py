@@ -125,4 +125,5 @@ INTERNAL_IPS = [
 
 CORS_ALLOWED_ORIGINS = [
     os.environ.get("NEXT_PUBLIC_URL"),
+    "http://localhost:9200",
 ]

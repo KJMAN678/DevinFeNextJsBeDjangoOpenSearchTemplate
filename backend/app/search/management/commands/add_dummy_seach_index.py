@@ -5,6 +5,7 @@ from opensearchpy import OpenSearch
 from django.core.management.base import BaseCommand
 from faker import Faker
 
+
 class Command(BaseCommand):
     help = "Closes the specified poll for voting"
 
@@ -27,8 +28,8 @@ class Command(BaseCommand):
         index_name = "classmates"
         if client.indices.exists(index=index_name):
             client.indices.delete(index=index_name)
-            
-        fake = Faker()
+
+        fake = Faker("ja_JP")
         for _ in range(100):
             data = {
                 "Name": fake.name(),
@@ -37,4 +38,4 @@ class Command(BaseCommand):
             }
             client.index(index=index_name, body=data, refresh=True)
 
-        self.stdout.write(f"Added 100 dummy search index")
+        self.stdout.write("Added 100 dummy search index")

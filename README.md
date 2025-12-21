@@ -1,8 +1,8 @@
 ### 検索
 ```sh
 - ダミーデータで検索インデックスを作成
-$ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py add_dummy_seach_index
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py add_dummy_seach_index
+$ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py add_dummy_search_index
+$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py add_dummy_search_index
 
 - 検索結果を表示
 $ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py show_search_result "Alice"

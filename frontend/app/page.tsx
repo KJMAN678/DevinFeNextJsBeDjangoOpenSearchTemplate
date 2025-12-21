@@ -22,7 +22,15 @@ export default function Page() {
     e.preventDefault()
     setLoading(true);
     const formData = new FormData(e.target as HTMLFormElement)
-    const searchWord = formData.get('search_word') as string
+    const searchWord = (formData.get('search_word') as string | null)?.trim() ?? ''
+
+    // 空文字列・空白のみの場合はAPIリクエストを行わない
+    if (!searchWord) {
+      setLoading(false);
+      setData(null);
+      return;
+    }
+
     try {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/search`, { search_word: searchWord })
       setData(res.data)

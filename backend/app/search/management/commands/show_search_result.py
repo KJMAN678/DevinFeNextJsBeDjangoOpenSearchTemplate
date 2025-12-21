@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "Closes the specified poll for voting"
+    help = "Run a search on the 'classmates' index and print the raw response"
 
     def add_arguments(self, parser):
         # Positional arguments

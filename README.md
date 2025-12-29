@@ -41,6 +41,21 @@ $ ./remake-container.sh ubuntu
 
 # コンテナ イメージのサイズを確かめる
 $ docker image ls
+
+$ docker scout quickview <image>:<tag>
+$ docker scout cves <image>:<tag>
+
+$ hadolint backend/Dockerfile
+$ hadolint frontend/Dockerfile.mac
+$ hadolint frontend/Dockerfile.ubuntu
+$ hadolint opensearch/Dockerfile
+```
+
+```sh
+$ docker ps
+$ docker exec -it devinfenextjsbedjangoopensearchtemplate-frontend-1 bash
+$ apt-get update
+$ apt-cache policy <library>
 ```
 
 ```sh

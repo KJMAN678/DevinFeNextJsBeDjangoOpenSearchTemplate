@@ -43,12 +43,14 @@ $ ./remake-container.sh ubuntu
 $ docker image ls
 ```
 
+```sh
 $ cd frontend
 $ npx next dev
 $ npx next build
 $ npx next start
 
 $ frontend/.next/standalone/.next/server
+```
 
 #### 5.SetUp Lint
 ```sh

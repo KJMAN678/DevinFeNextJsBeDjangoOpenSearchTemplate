@@ -38,7 +38,15 @@ $ docker compose -f docker-compose.ubuntu.yaml up -d
 # コンテナ作り直し
 $ ./remake-container.sh mac
 $ ./remake-container.sh ubuntu
+
+# コンテナ イメージのサイズを確かめる
+$ docker image ls
 ```
+
+$ cd frontend
+$ npx next dev
+$ npx next build
+$ npx next start
 
 #### 5.SetUp Lint
 ```sh

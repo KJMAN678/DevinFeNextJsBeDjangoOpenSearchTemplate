@@ -5,12 +5,13 @@ services:
       dockerfile: Dockerfile.mac
     volumes:
       - ./frontend:/app/frontend
-      - /app/frontend/node_modules
+      # - /app/frontend/node_modules
     ports:
       - "3000:3000"
     environment:
       - "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}"
-    command: npm run dev
+    # command: npm run dev
+    command: npx next start
     depends_on:
       - backend
 

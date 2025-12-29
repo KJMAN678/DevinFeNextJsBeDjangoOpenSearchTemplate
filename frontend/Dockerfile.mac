@@ -33,3 +33,6 @@ RUN npx playwright install firefox
 
 # 残りのコードをコピー（コード変更時はこのレイヤーのみ再ビルド）
 COPY . /app/frontend
+RUN npx next build
+COPY ./.next /app/frontend
+# CMD ["npm", "next", "start"]

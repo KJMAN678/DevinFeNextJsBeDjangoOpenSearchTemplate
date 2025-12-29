@@ -27,7 +27,6 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 依存関係をインストール（コード変更時はこのレイヤーがスキップされる）
-RUN npm install
 RUN npm install --save-dev @next/swc-linux-arm64-gnu
 RUN npx playwright install firefox
 
@@ -41,5 +40,3 @@ FROM node:24-bookworm
 WORKDIR /app/frontend
 
 COPY --from=builder /app/frontend/.next/standalone .
-
-# CMD ["npm", "next", "start"]

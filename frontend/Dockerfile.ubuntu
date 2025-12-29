@@ -40,5 +40,3 @@ FROM node:24-bookworm
 WORKDIR /app/frontend
 
 COPY --from=builder /app/frontend/.next/standalone .
-
-# CMD ["npm", "next", "start"]

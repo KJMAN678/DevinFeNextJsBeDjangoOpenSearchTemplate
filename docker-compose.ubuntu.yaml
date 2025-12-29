@@ -5,12 +5,11 @@ services:
       dockerfile: Dockerfile.ubuntu
     volumes:
       - ./frontend:/app/frontend
-      - /app/frontend/node_modules
     ports:
       - "3000:3000"
     environment:
       - "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}"
-    command: npm run build-and-dev
+    command: node .next/standalone/server.js
     depends_on:
       - backend
 
@@ -35,9 +34,9 @@ services:
       - "OPENSEARCH_URL=${OPENSEARCH_URL}"
     command: sh /app/backend/start.sh
     depends_on:
-      db:
-        condition: service_healthy
       opensearch:
+        condition: service_healthy
+      db:
         condition: service_healthy
     networks:
       - opensearch-net
@@ -62,6 +61,12 @@ services:
     build:
       context: ./opensearch
     container_name: opensearch
+    healthcheck:
+      test: ["CMD-SHELL", "curl -k -u admin:$$OPENSEARCH_INITIAL_ADMIN_PASSWORD https://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     environment:
       discovery.type: single-node
       OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
@@ -79,12 +84,6 @@ services:
       - 9200:9200
     networks:
       - opensearch-net
-    healthcheck:
-      test: ["CMD-SHELL", "curl -k -u admin:$$OPENSEARCH_INITIAL_ADMIN_PASSWORD https://localhost:9200/_cluster/health || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
 
 
   opensearch-dashboards:

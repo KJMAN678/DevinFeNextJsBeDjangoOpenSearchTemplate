@@ -1,4 +1,4 @@
-FROM node:24-bookworm
+FROM node:24-bookworm AS builder
 
 WORKDIR /app/frontend
 
@@ -35,4 +35,11 @@ RUN npx playwright install firefox
 COPY . /app/frontend
 RUN npx next build
 COPY ./.next /app/frontend
+
+FROM node:24-bookworm
+
+WORKDIR /app/frontend
+
+COPY --from=builder /app/frontend/.next/standalone .
+
 # CMD ["npm", "next", "start"]

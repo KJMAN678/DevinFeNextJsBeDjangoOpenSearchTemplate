@@ -11,7 +11,8 @@ services:
     environment:
       - "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}"
     # command: npm run dev
-    command: npx next start
+    # command: npx next start
+    command: node .next/standalone/server.js
     depends_on:
       - backend
 

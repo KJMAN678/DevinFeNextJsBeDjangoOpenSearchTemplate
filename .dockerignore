@@ -1,0 +1,7 @@
+.envrc
+remake-container.sh
+docker-compose.*.yml
+.github
+*.md
+.git
+.gitignore

@@ -1,5 +1,6 @@
 import os
 
+from config import settings
 from opensearchpy import OpenSearch
 
 
@@ -11,11 +12,16 @@ def opensearch_client():
         os.environ.get("OPENSEARCH_INITIAL_ADMIN_PASSWORD"),
     )
 
+    if settings.DEBUG:
+        verify_serts = False
+    else:
+        verify_serts = True
+
     client = OpenSearch(
         hosts=[{"host": host, "port": port}],
         http_auth=auth,
         use_ssl=True,
-        verify_certs=False,
+        verify_certs=verify_serts,
     )
 
     return client

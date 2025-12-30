@@ -61,12 +61,6 @@ services:
     build:
       context: ./opensearch
     container_name: opensearch
-    healthcheck:
-      test: ["CMD-SHELL", "curl -k -u admin:$$OPENSEARCH_INITIAL_ADMIN_PASSWORD https://localhost:9200/_cluster/health || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
     environment:
       discovery.type: single-node
       OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
@@ -76,6 +70,16 @@ services:
       DISABLE_INSTALL_DEMO_CONFIG: false
     volumes:
       - ./opensearch/backup:/usr/share/opensearch/config/backup
+      - ./opensearch/secrets/opensearch.netrc:/run/secrets/opensearch.netrc:ro
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "curl -k --fail --silent --show-error --netrc-file /run/secrets/opensearch.netrc https://localhost:9200/_cluster/health > /dev/null || exit 1"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     ulimits:
       memlock:
         soft: -1
@@ -84,7 +88,6 @@ services:
       - 9200:9200
     networks:
       - opensearch-net
-
 
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:2.18.0

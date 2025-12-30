@@ -191,3 +191,6 @@ frontend/shared-images/*.jpg
 .envrc
 test-results/
 package-lock.json
+
+# opensearch
+opensearch/secrets/opensearch.netrc

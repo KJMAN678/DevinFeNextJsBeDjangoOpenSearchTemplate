@@ -22,6 +22,11 @@ $ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/ma
 $ touch .envrc
 $ cp .envrc.example .envrc
 $ direnv allow
+
+# opensearch用の設定ファイルの更新
+$ touch opensearch/secrets/opensearch.netrc
+$ cp opensearch/secrets/opensearch.netrc.example opensearch/secrets/opensearch.netrc
+- password に、opensearch の admin password を入力する
 ```
 
 - ローカル用

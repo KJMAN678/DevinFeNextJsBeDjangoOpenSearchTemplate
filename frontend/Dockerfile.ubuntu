@@ -1,8 +1,11 @@
-FROM node:24-bookworm
+FROM node:24-bookworm AS builder
 
 WORKDIR /app/frontend
-COPY . /app/frontend
 
+# 依存関係ファイルを先にコピー（レイヤーキャッシュの最適化）
+COPY package.json package-lock.json ./
+
+# システムパッケージをインストール
 RUN apt-get update && apt-get install -y \
     libnspr4 \
     libnss3 \
@@ -20,8 +23,20 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     libx11-xcb1 \
     libxcursor1 \
-    libgtk-3-0
+    libgtk-3-0 \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN rm -rf ./node_modules ./package-lock.json
+# 依存関係をインストール（コード変更時はこのレイヤーがスキップされる）
 RUN npm install
 RUN npx playwright install firefox
+
+# 残りのコードをコピー（コード変更時はこのレイヤーのみ再ビルド）
+COPY . /app/frontend
+RUN npx next build
+COPY ./.next /app/frontend
+
+FROM node:24-bookworm
+
+WORKDIR /app/frontend
+
+COPY --from=builder /app/frontend/.next/standalone .

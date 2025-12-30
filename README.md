@@ -22,6 +22,11 @@ $ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/ma
 $ touch .envrc
 $ cp .envrc.example .envrc
 $ direnv allow
+
+# opensearch用の設定ファイルの更新
+$ touch opensearch/secrets/opensearch.netrc
+$ cp opensearch/secrets/opensearch.netrc.example opensearch/secrets/opensearch.netrc
+- password に、opensearch の admin password を入力する
 ```
 
 - ローカル用
@@ -31,13 +36,34 @@ $ brew install direnv
 #### 4.Maintain Dependencies
 ```sh
 # ローカルM1Mac用
+$ docker compose -f docker-compose.mac.yaml build --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 $ docker compose -f docker-compose.mac.yaml up -d
 # Devin用
+$ docker compose -f docker-compose.ubuntu.yaml build --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 $ docker compose -f docker-compose.ubuntu.yaml up -d
 
 # コンテナ作り直し
 $ ./remake-container.sh mac
 $ ./remake-container.sh ubuntu
+
+# コンテナ イメージのサイズを確かめる
+$ docker image ls
+
+# docker のセキュリティチェック
+$ docker scout quickview <image>:<tag>
+$ docker scout cves <image>:<tag>
+
+# docker の linter
+$ hadolint backend/Dockerfile
+$ hadolint frontend/Dockerfile.mac
+$ hadolint frontend/Dockerfile.ubuntu
+$ hadolint opensearch/Dockerfile
+
+# インストール可能なLinux ライブラリのバージョンチェックのためにコンテナに入る
+$ docker ps
+$ docker exec -it devinfenextjsbedjangoopensearchtemplate-frontend-1 bash
+$ apt-get update
+$ apt-cache policy <library>
 ```
 
 #### 5.SetUp Lint
@@ -112,8 +138,8 @@ $ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/ma
 ### フロントエンドのバージョンアップ
 
 ```sh
-$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx npm-check-updates -u
-$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx npm-check-updates -u --target minor
-$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx npm-check-updates -u --target patch
-$ docker compose -f docker-compose.ubuntu.yaml exec frontend npm install
+$ docker compose -f docker-compose.mac.yaml exec frontend npx npm-check-updates -u
+$ docker compose -f docker-compose.mac.yaml exec frontend npx npm-check-updates -u --target minor
+$ docker compose -f docker-compose.mac.yaml exec frontend npx npm-check-updates -u --target patch
+$ docker compose -f docker-compose.mac.yaml exec frontend npm install
 ```

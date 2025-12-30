@@ -12,14 +12,14 @@ dependencies = [
     "django-filter==25.2",
     "django-cors-headers==4.9.0",
     "opensearch-py==3.1.0",
-]
-
-[dependency-groups]
-dev = [
     "ruff==0.14.9",
     "pytest==9.0.2",
     "pytest-django==4.11.1",
     "factory-boy==3.3.3",
+]
+
+[dependency-groups]
+dev = [
 ]
 
 [tool.uv]

@@ -1,17 +1,8 @@
-from ninja import NinjaAPI, Schema
-from opensearchpy import OpenSearch
 import os
 
-# Reuse a single OpenSearch client instance across requests
-OPENSEARCH_CLIENT = OpenSearch(
-    hosts=[{"host": "opensearch", "port": 9200}],
-    http_auth=(
-        os.environ.get("OPENSEARCH_INITIAL_ADMIN_USERNAME"),
-        os.environ.get("OPENSEARCH_INITIAL_ADMIN_PASSWORD"),
-    ),
-    use_ssl=True,
-    verify_certs=False,
-)
+from ninja import NinjaAPI, Schema
+from opensearchpy import OpenSearch
+from search.constants import opensearch_client
 
 api = NinjaAPI()
 
@@ -23,7 +14,7 @@ class SearchRequest(Schema):
 @api.post("/search")
 def search(request, data: SearchRequest):
     # Reuse the module-level OpenSearch client instead of creating a new one
-    client = OPENSEARCH_CLIENT
+    client = opensearch_client()
 
     index_name = "classmates"
 

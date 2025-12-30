@@ -3,15 +3,15 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.ubuntu
-    volumes:
-      - ./frontend:/app/frontend
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
     ports:
       - "3000:3000"
-    environment:
-      - "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}"
-    command: node .next/standalone/server.js
+    command: node server.js
     depends_on:
       - backend
+    networks:
+      - opensearch-net
 
   backend:
     build:

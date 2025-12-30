@@ -29,7 +29,6 @@ RUN apt-get update && apt-get install -y \
 # 依存関係をインストール（コード変更時はこのレイヤーがスキップされる）
 RUN npm install
 RUN npm install --save-dev @next/swc-linux-arm64-gnu@16.1.1
-RUN npx playwright install firefox
 
 # 残りのコードをコピー（コード変更時はこのレイヤーのみ再ビルド）
 COPY . /app/frontend

@@ -1,12 +1,12 @@
 ### 検索
 ```sh
 - ダミーデータで検索インデックスを作成
-$ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py add_dummy_search_index
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py add_dummy_search_index
+$ docker compose -f docker-compose.mac.yaml exec backend python app/manage.py add_dummy_search_index
+$ docker compose -f docker-compose.ubuntu.yaml exec backend python app/manage.py add_dummy_search_index
 
 - 検索結果を表示
-$ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py show_search_result "Alice"
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py show_search_result "Alice"
+$ docker compose -f docker-compose.mac.yaml exec backend python app/manage.py show_search_result "Alice"
+$ docker compose -f docker-compose.ubuntu.yaml exec backend python app/manage.py show_search_result "Alice"
 ```
 
 ### Devin
@@ -69,41 +69,46 @@ $ apt-cache policy <library>
 #### 5.SetUp Lint
 ```sh
 # ローカルM1Mac用
-$ docker compose -f docker-compose.mac.yaml exec backend uv run ruff check .
-$ docker compose -f docker-compose.mac.yaml exec frontend npx next lint
+$ docker compose -f docker-compose.mac.yaml exec backend ruff check .
+
+- フロントエンドはマルチステージビルドにしたせいでコンテナ内でlinterを実行できないので、下記で実行
+$ cd frontend
+$ npm install
+$ npm exec eslint -- . --fix
+$ npm run test
+$ npx playwright install firefox
+$ npx playwright test --project firefox
+
+### フロントエンドのバージョンアップ
+$ npx npm-check-updates -u
+$ npx npm-check-updates -u --target minor
+$ npx npm-check-updates -u --target patch
+
+# 後処理
+$ rm -rf node_modules
+$ rm -rf coverage
 
 # Devin用
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run ruff check .
-$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx next lint
+$ docker compose -f docker-compose.ubuntu.yaml exec backend ruff check .
 ```
 
 - 参考
 ```sh
-$ docker compose -f docker-compose.mac.yaml exec backend uv run ruff format 
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run ruff format 
+$ docker compose -f docker-compose.mac.yaml exec backend ruff format 
+$ docker compose -f docker-compose.ubuntu.yaml exec backend ruff format 
 
-$ docker compose -f docker-compose.mac.yaml exec backend uv run ruff check --fix .
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run ruff check --fix .
+$ docker compose -f docker-compose.mac.yaml exec backend ruff check --fix .
+$ docker compose -f docker-compose.ubuntu.yaml exec backend ruff check --fix .
 ```
 
 #### 6.SetUp Tests
 - no tests ran in 0.00s だと Devin の Verify が通らないっぽい
 ```sh
 # ローカルM1Mac用
-$ docker compose -f docker-compose.mac.yaml exec backend uv run pytest
-$ docker compose -f docker-compose.mac.yaml exec frontend npm run test
+$ docker compose -f docker-compose.mac.yaml exec backend pytest
 
 # Devin用
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run pytest
-$ docker compose -f docker-compose.ubuntu.yaml exec frontend npm run test
-
-# Playwright
-# ローカルM1Mac用
-$ docker compose -f docker-compose.mac.yaml exec frontend npx playwright test --project firefox
-
-# Devin用
-# Playwright
-$ docker compose -f docker-compose.ubuntu.yaml exec frontend npx playwright test --project firefox
+$ docker compose -f docker-compose.ubuntu.yaml exec backend pytest
 ```
 
 ### 7.Setup Local App
@@ -123,23 +128,13 @@ $ http://localhost:5601/ が OpenSearch-Dashboards のURL
 ```sh
 # ローカルM1Mac用
 $ mkdir -p backend/app/search
-$ docker compose -f docker-compose.mac.yaml exec backend uv run django-admin startapp search app/search
-$ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py makemigrations
-$ docker compose -f docker-compose.mac.yaml exec backend uv run python app/manage.py migrate
+$ docker compose -f docker-compose.mac.yaml exec backend django-admin startapp search app/search
+$ docker compose -f docker-compose.mac.yaml exec backend python app/manage.py makemigrations
+$ docker compose -f docker-compose.mac.yaml exec backend python app/manage.py migrate
 
 # Devin用
 $ mkdir -p backend/app/search
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run django-admin startapp search app/search
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py makemigrations
-$ docker compose -f docker-compose.ubuntu.yaml exec backend uv run python app/manage.py migrate
-```
-
-
-### フロントエンドのバージョンアップ
-
-```sh
-$ docker compose -f docker-compose.mac.yaml exec frontend npx npm-check-updates -u
-$ docker compose -f docker-compose.mac.yaml exec frontend npx npm-check-updates -u --target minor
-$ docker compose -f docker-compose.mac.yaml exec frontend npx npm-check-updates -u --target patch
-$ docker compose -f docker-compose.mac.yaml exec frontend npm install
+$ docker compose -f docker-compose.ubuntu.yaml exec backend django-admin startapp search app/search
+$ docker compose -f docker-compose.ubuntu.yaml exec backend python app/manage.py makemigrations
+$ docker compose -f docker-compose.ubuntu.yaml exec backend python app/manage.py migrate
 ```

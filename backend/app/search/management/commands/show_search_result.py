@@ -1,8 +1,9 @@
 import os
 
+from django.core.management.base import BaseCommand
 from opensearchpy import OpenSearch
 
-from django.core.management.base import BaseCommand
+from search.constants import opensearch_client
 
 
 class Command(BaseCommand):
@@ -13,19 +14,7 @@ class Command(BaseCommand):
         parser.add_argument("search_word", nargs=1, type=str)
 
     def handle(self, *args, **options):
-        host = "opensearch"
-        port = 9200
-        auth = (
-            os.environ.get("OPENSEARCH_INITIAL_ADMIN_USERNAME"),
-            os.environ.get("OPENSEARCH_INITIAL_ADMIN_PASSWORD"),
-        )
-
-        client = OpenSearch(
-            hosts=[{"host": host, "port": port}],
-            http_auth=auth,
-            use_ssl=True,
-            verify_certs=False,
-        )
+        client = opensearch_client()
 
         index_name = "classmates"
         q = options["search_word"][0]

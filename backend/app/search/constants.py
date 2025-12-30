@@ -1,9 +1,11 @@
 import os
+from functools import lru_cache
 
 from config import settings
 from opensearchpy import OpenSearch
 
 
+@lru_cache(maxsize=1)
 def opensearch_client():
     host = "opensearch"
     port = 9200

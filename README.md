@@ -21,7 +21,10 @@ $ docker compose -f docker-compose.ubuntu.yaml exec backend python app/manage.py
 # 環境変数用のファイル作成
 $ touch .envrc
 $ cp .envrc.example .envrc
+
 $ direnv allow
+or
+$ source .envrc
 
 # opensearch用の設定ファイルの更新
 $ touch opensearch/secrets/opensearch.netrc

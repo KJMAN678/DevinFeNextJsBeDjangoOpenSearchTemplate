@@ -4,6 +4,7 @@ updates:
     directory: "/backend"
     schedule:
       interval: "weekly"
+    target-branch: "develop"
     allow:
       - dependency-name: "ghcr.io/astral-sh/uv:0.9.10"
     ignore:
@@ -15,6 +16,7 @@ updates:
     directory: "/frontend"
     schedule:
       interval: "weekly"
+    target-branch: "develop"
     allow:
       - dependency-name: "ghcr.io/vercel/next.js"
     ignore:
@@ -26,6 +28,7 @@ updates:
     directory: "/opensearch"
     schedule:
       interval: "weekly"
+    target-branch: "develop"
     allow:
       - dependency-name: "ghcr.io/opensearch-project/OpenSearch"
     ignore:
@@ -37,6 +40,7 @@ updates:
     directory: "./"
     schedule:
       interval: "weekly"
+    target-branch: "develop"
     allow:
       - dependency-name: "ghcr.io/postgres/postgres"
     ignore:

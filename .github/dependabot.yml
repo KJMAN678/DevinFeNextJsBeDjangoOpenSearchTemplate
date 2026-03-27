@@ -4,6 +4,8 @@ updates:
     directory: "/backend"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 28
     target-branch: "develop"
     allow:
       - dependency-name: "ghcr.io/astral-sh/uv:0.9.10"
@@ -16,6 +18,8 @@ updates:
     directory: "/frontend"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 28
     target-branch: "develop"
     allow:
       - dependency-name: "ghcr.io/vercel/next.js"
@@ -28,6 +32,8 @@ updates:
     directory: "/opensearch"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 28
     target-branch: "develop"
     allow:
       - dependency-name: "ghcr.io/opensearch-project/OpenSearch"
@@ -40,6 +46,8 @@ updates:
     directory: "./"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 28
     target-branch: "develop"
     allow:
       - dependency-name: "ghcr.io/postgres/postgres"

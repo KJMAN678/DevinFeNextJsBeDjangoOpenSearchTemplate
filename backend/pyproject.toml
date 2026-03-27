@@ -24,7 +24,7 @@ dev = [
 
 [tool.uv]
 link-mode = "copy"
-
+exclude-newer = "28 days"
 
 [tool.pytest.ini_options]
 testpaths = ["app/tests"]
